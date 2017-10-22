@@ -10,41 +10,42 @@ can recover them - or indeed know that keys are being leaked at all.
 
 ## SETUPs
 
-A Secretly Embedded Trapdoor with Universal Protection is an algorithm that can
-be embeddded in a cryptosystem to leak secret key information to the attacker through
-the output of the cryptosystem.  In general, a SETUP:
+A **S**ecretly **E**mbedded **T**rapdoor with **U**niversal **P**rotection is an
+algorithm that can be embeddded in a cryptosystem to leak secret key information
+to the attacker through the output of the cryptosystem.  In general, a SETUP:
 
-0. Has input and output polynomially indistinguishable from that of the uncompromised system.
-0. Does not contain the attacker's decryption function or decryption key.
-0. Leaks bits of the user's secret key in its output.
-0. Even with full knowledge of the SETUP, only the attacker can determine past or future keys.
+- Has input and output polynomially indistinguishable from that of the uncompromised system.
+- Does not contain the attacker's decryption function or decryption key.
+- Leaks bits of the user's secret key in its output.
+- Even with full knowledge of the SETUP, only the attacker can determine past or future keys.
 
-A strong SETUP is more powerful than a regular SETUP.  Consider a cryptosystem that
-uses a SETUP mechanism with 50% probability and the unmodified algorithm with 50%
-probability.  In a strong SETUP, a user would not be able to tell which algorithm
-was used.
+A "strong" SETUP is more powerful than a regular SETUP.  Consider a cryptosystem
+that  uses a SETUP mechanism  with 50% probability  and the unmodified algorithm
+with 50% probability.  In a strong SETUP, a user would not be able to tell which
+algorithm was used.
 
 
-## Leakage Bandwidth
+### Leakage Bandwidth
 
-Leakage bandwidth refers to the number of secret bits that can be leaked per bit
-of output message.
+Leakage bandwidth refers to the number of keys that can be leaked  per number of
+output messages. A SETUP that leaks one key every four messages would be said to
+have (1, 4)-leakage.
 
 
 ## A Discrete Log Based SETUP against Diffie-Hellman
 
 ### Diffie-Hellman Key Exchange
 
-Alice and Bob want to communicate securely on a public channel.  They need to agree
-on a secret key.  The Diffie-Hellman protocol lets them do this as follows:
+Suppose Alice and Bob need to agree  on a secret key,  but  can only communicate
+over a public channel.  The Diffie-Hellman protocol lets them do this:
 
 - Assume a public large strong prime _p_.
 - Assume a public _g_ which is a generator mod _p_.
 - Alice generates a random value _a_ < _p_ - 1.
 - Bob generates a random value _b_ < _p_ - 1.
-- Alice sends Bob _g_^<sup>_a_</sup> % _p_.
-- Bob sends Alice _g_^<sup>_b_</sup> % _p_.
-- Both of them can now compute a secret _k_ = _g_<sup>_ab_</sup> mod _p_.
+- Alice sends Bob _g_<sup>_a_</sup> mod _p_.
+- Bob sends Alice _g_<sup>_b_</sup> mod _p_.
+- Both of them can now compute a shared secret _k_ = _g_<sup>_ab_</sup> mod _p_.
 
 
 ### The Discrete Log Attack
@@ -52,14 +53,14 @@ on a secret key.  The Diffie-Hellman protocol lets them do this as follows:
 In the above protocol, the only information that Alice sends over the network is
 _g_<sup>_a_</sup> mod _p_.  How can she leak her secret _a_ to an accomplice?
 
-Assume Alice and Eve have agreed on a few extra numbers beforehand (there are some
-extra requirements for _A_ and _B_ that we won't get into here):
+Assume  Alice and Eve  have agreed on a few extra numbers beforehand  (there are
+some extra requirements for _A_ and _B_ that we won't get into here):
 - Eve's public key _g_<sup>_x_</sup>.
 - An odd number _W_.
 - Some number _A_.
 - Some number _B_.
 
-Alice can leak her _second_ secret _a_ as follows. The first time she performs
+Alice can leak her  _second_  secret _a_ as follows. The first time she performs
 the protocol:
 
 - She chooses _a_<sub>1</sub> < _p_ - 1 uniformly at random.
@@ -74,7 +75,9 @@ The second time through the protocol:
 - She sends Bob _m_<sub>2</sub> = _g_<sup>_a_<sub>2</sub></sup> mod _p_.
 
 Eve can just watch the messages passing through the network.  She can observe values
-_m_<sub>1</sub> and _m_<sub>2</sub> and use them to calculate _a_<sub>2</sub>:
+_m_<sub>1</sub> and _m_<sub>2</sub> and Bob's second response, _g_<sup>_b_<sub>2</sub></sup>.
+These are all she needs to solve for _a_<sub>2</sub> and use it to calculate Alice
+and Bob's second shared secret key, _k_<sub>2</sub>:
 
 - She calculates _r_ = _m_<sub>1</sub><sup>_A_</sup>_g_<sup>_B_</sup> mod _p_.
 - She calculates _z_<sub>1</sub> = _m_<sub>1</sub>_r_<sup>-_x_</sup> mod _p_.
