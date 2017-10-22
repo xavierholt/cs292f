@@ -11,7 +11,7 @@ can recover them - or indeed know that keys are being leaked at all.
 ## SETUPs
 
 A **S**ecretly **E**mbedded **T**rapdoor with **U**niversal **P**rotection is an
-algorithm that can be embeddded in a cryptosystem to leak secret key information
+algorithm that can be embedded in a cryptosystem to leak secret key information
 to the attacker through the output of the cryptosystem.  In general, a SETUP:
 
 - Has input and output polynomially indistinguishable from that of the uncompromised system.
