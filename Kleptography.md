@@ -53,8 +53,9 @@ over a public channel.  The Diffie-Hellman protocol lets them do this:
 In the above protocol, the only information that Alice sends over the network is
 _g_<sup>_a_</sup> mod _p_.  How can she leak her secret _a_ to an accomplice?
 
-Assume  Alice and Eve  have agreed on a few extra numbers beforehand  (there are
-some extra requirements for _A_ and _B_ that we won't get into here):
+Assume Alice and Eve have agreed on a few parameters beforehand  (there are some
+extra requirements for _A_ and _B_ that we won't get into here):
+- A cryptographic hash function H.
 - Eve's public key _g_<sup>_x_</sup>.
 - An odd number _W_.
 - Some number _A_.
@@ -64,7 +65,7 @@ Alice can leak her  _second_  secret _a_ as follows. The first time she performs
 the protocol:
 
 - She chooses _a_<sub>1</sub> < _p_ - 1 uniformly at random.
-- She sends Bob _m_<sub>1</sub> = _g_<sup>_a_<sub>1</sub></sup> mod _p_.
+- She sends Bob _m_<sub>1</sub> = _g_<sup>_a_<sub>1</sub></sup>.
 - She stores _a_<sub>1</sub> to use again next time.
 
 The second time through the protocol:
@@ -72,30 +73,28 @@ The second time through the protocol:
 - She chooses _t_ randomly from {0, 1}.
 - She calculates _z_ = _g_<sup>_a_<sub>1</sub> - _Wt_ - _Axa_<sub>1</sub> - _Bx_</sup>.
 - She calculates _a_<sub>2</sub> = H(_z_).
-- She sends Bob _m_<sub>2</sub> = _g_<sup>_a_<sub>2</sub></sup> mod _p_.
+- She sends Bob _m_<sub>2</sub> = _g_<sup>_a_<sub>2</sub></sup>.
 
 Eve can just watch the messages passing through the network.  She can observe values
 _m_<sub>1</sub> and _m_<sub>2</sub> and Bob's second response, _g_<sup>_b_<sub>2</sub></sup>.
 These are all she needs to solve for _a_<sub>2</sub> and use it to calculate Alice
 and Bob's second shared secret key, _k_<sub>2</sub>:
 
-- She calculates _r_ = _m_<sub>1</sub><sup>_A_</sup>_g_<sup>_B_</sup> mod _p_.
-  - _r_ = _m_<sub>1</sub><sup>_A_</sup>_g_<sup>_B_</sup> mod _p_
-  - _r_ = _g_<sup>_Aa_<sub>1</sub></sup>_g_<sup>_B_</sup> mod _p_
-  - _r_ = _g_<sup>_Aa_<sub>1</sub> + _B_</sup> mod _p_
-- She calculates _z_<sub>1</sub> = _m_<sub>1</sub>_r_<sup>-_x_</sup> mod _p_.
-  - _z_<sub>1</sub> = _m_<sub>1</sub>_r_<sup>-_x_</sup> mod _p_.
-  - _z_<sub>1</sub> = _g_<sup>_a_<sub>1</sub></sup>_g_<sup>-_Axa_<sub>1</sub> - _Bx_</sup> mod _p_.
-  - _z_<sub>1</sub> = _g_<sup>_a_<sub>1</sub> - _Axa_<sub>1</sub> - _Bx_</sup> mod _p_.
-- If _m_<sub>2</sub> = _g_<sup>H(_z_<sub>1</sub>)</sup> mod _p_:
-  - Then Eve has found _a_<sub>2</sub> = H(_z_<sub>1</sub>).
-- Otherwise she calculates _z_<sub>2</sub> = _z_<sub>1</sub>_g_<sup>-_W_</sup>.
-  - _z_<sub>2</sub> = _z_<sub>1</sub>_g_<sup>-_W_</sup> mod _p_
-  - _z_<sub>2</sub> = _g_<sup>_a_<sub>1</sub> - _Axa_<sub>1</sub> - _Bx_</sup>_g_<sup>-_W_</sup> mod _p_
-  - _z_<sub>2</sub> = _g_<sup>_a_<sub>1</sub> - _W_ - _Axa_<sub>1</sub> - _Bx_</sup> mod _p_
-- If _m_<sub>2</sub> = _g_<sup>H(_z_<sub>2</sub>)</sup> mod _p_:
-  - Then Eve has found _a_<sub>2</sub> = H(_z_<sub>2</sub>).
-- Eve can now calculate _k_<sub>2</sub> = (_g_<sup>_b_<sub>2</sub></sup>)<sup>_a_<sub>2</sub>.
+- She calculates:
+  - _r_ = _m_<sub>1</sub><sup>_A_</sup>_g_<sup>_B_</sup>
+  - _r_ = _g_<sup>_Aa_<sub>1</sub></sup>_g_<sup>_B_</sup>
+  - _r_ = _g_<sup>_Aa_<sub>1</sub> + _B_</sup>
+- She calculates:
+  - _z_<sub>1</sub> = _m_<sub>1</sub>_r_<sup>-_x_</sup>.
+  - _z_<sub>1</sub> = _g_<sup>_a_<sub>1</sub></sup>_g_<sup>-_Axa_<sub>1</sub> - _Bx_</sup>.
+  - _z_<sub>1</sub> = _g_<sup>_a_<sub>1</sub> - _Axa_<sub>1</sub> - _Bx_</sup>.
+- If _m_<sub>2</sub> = _g_<sup>H(_z_<sub>1</sub>)</sup> then _t_ was 0 and Eve has found _a_<sub>2</sub> = H(_z_<sub>1</sub>).
+- Otherwise she calculates:
+  - _z_<sub>2</sub> = _z_<sub>1</sub>_g_<sup>-_W_</sup>
+  - _z_<sub>2</sub> = _g_<sup>_a_<sub>1</sub> - _Axa_<sub>1</sub> - _Bx_</sup>_g_<sup>-_W_</sup>
+  - _z_<sub>2</sub> = _g_<sup>_a_<sub>1</sub> - _W_ - _Axa_<sub>1</sub> - _Bx_</sup>
+- If _m_<sub>2</sub> = _g_<sup>H(_z_<sub>2</sub>)</sup> then _t_ was 1 and Eve has found _a_<sub>2</sub> = H(_z_<sub>2</sub>).
+- She can now calculate _k_<sub>2</sub> = (_g_<sup>_b_<sub>2</sub></sup>)<sup>_a_<sub>2</sub>.
 
 Only Eve can do this, because only she knows her secret key, _x_.
 
