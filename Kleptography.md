@@ -80,10 +80,19 @@ These are all she needs to solve for _a_<sub>2</sub> and use it to calculate Ali
 and Bob's second shared secret key, _k_<sub>2</sub>:
 
 - She calculates _r_ = _m_<sub>1</sub><sup>_A_</sup>_g_<sup>_B_</sup> mod _p_.
+  - _r_ = _m_<sub>1</sub><sup>_A_</sup>_g_<sup>_B_</sup> mod _p_
+  - _r_ = _g_<sup>_Aa_<sub>1</sub></sup>_g_<sup>_B_</sup> mod _p_
+  - _r_ = _g_<sup>_Aa_<sub>1</sub> + _B_</sup> mod _p_
 - She calculates _z_<sub>1</sub> = _m_<sub>1</sub>_r_<sup>-_x_</sup> mod _p_.
+  - _z_<sub>1</sub> = _m_<sub>1</sub>_r_<sup>-_x_</sup> mod _p_.
+  - _z_<sub>1</sub> = _g_<sup>_a_<sub>1</sub></sup>_g_<sup>-_Axa_<sub>1</sub> - _Bx_</sup> mod _p_.
+  - _z_<sub>1</sub> = _g_<sup>_a_<sub>1</sub> - _Axa_<sub>1</sub> - _Bx_</sup> mod _p_.
 - If _m_<sub>2</sub> = _g_<sup>H(_z_<sub>1</sub>)</sup> mod _p_:
   - Then Eve has found _a_<sub>2</sub> = H(_z_<sub>1</sub>).
 - Otherwise she calculates _z_<sub>2</sub> = _z_<sub>1</sub>_g_<sup>-_W_</sup>.
+  - _z_<sub>2</sub> = _z_<sub>1</sub>_g_<sup>-_W_</sup> mod _p_
+  - _z_<sub>2</sub> = _g_<sup>_a_<sub>1</sub> - _Axa_<sub>1</sub> - _Bx_</sup>_g_<sup>-_W_</sup> mod _p_
+  - _z_<sub>2</sub> = _g_<sup>_a_<sub>1</sub> - _W_ - _Axa_<sub>1</sub> - _Bx_</sup> mod _p_
 - If _m_<sub>2</sub> = _g_<sup>H(_z_<sub>2</sub>)</sup> mod _p_:
   - Then Eve has found _a_<sub>2</sub> = H(_z_<sub>2</sub>).
 - Eve can now calculate _k_<sub>2</sub> = (_g_<sup>_b_<sub>2</sub></sup>)<sup>_a_<sub>2</sub>.
