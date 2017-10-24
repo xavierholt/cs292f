@@ -1,0 +1,67 @@
+%% LyX 2.2.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage{mathpazo}
+\usepackage[scaled=0.95]{helvet}
+\usepackage{courier}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{babel}
+\begin{document}
+
+\title{Kleptography: Using Cryptography against Cryptography}
+
+\author{A Summary by Kevin Burk and Ashwini Patil}
+
+\maketitle
+This paper introduces Kleptography and how to use cryptographic techniques
+against the Diffie-Hellman protocol. Kleptography, as defined in the
+paper is the \textquotedbl{}study of stealing information securely
+and subliminally.\textquotedbl{} The authors had previously introduced
+the concept of SETUP (Secretly Embedded Trapdoor with Universal Protection),
+which was designed such that it gives a unique advantage to the attacker.
+A SETUP is an algorithm that can be used to leak encrypted secret
+key information, when present within a cryptosystem. They discuss
+this concept again, in the context of Diffie-Hellman key exchanges.
+The paper can be applied to applications such as chip-and-pin card
+transactions and generation of RSA keys. We will be talking about
+how \textquotedbl{}black box\textquotedbl{} devices like USB tokens
+or chip cards can be designed to leak their keys in such a way that
+only the designer can recover them - or indeed know that keys are
+being leaked at all.
+
+The authors discuss the Diffie-Hellman key exchange protocol, and
+further go on to prove how it can be compromised using a strong attack
+based on the discrete logarithm problem. They also discuss the security
+of this attack from the attacker's point of view. The attacker can
+steal secrets in an exclusive and subliminal manner, implying that
+the attack is not traceable by anyone but the attacker. The concept
+of a strong SETUP is introduced in this paper and further used to
+attack the Diffie-Hellman key exchange protocol, in comparison to
+earlier used weak SETUPs. Here lies the novelty of this paper. Earlier
+attacks employing weak SETUPs were cryptographically insecure in the
+sense that the owner of the device was able to detect that his/her
+secret was compromised. The idea of m out of n (bits) leakage bandwidth
+is also a new concept in this paper. The authors then go on to discuss
+the Probabilistic Bias Removal Method. It presents a method to obtain
+larger uniform random numbers for RSA key generation.
+
+While going through the paper, we were very intrigued by the wide
+range of applications that the paper's concepts could be applied to.
+Additionally, the fact that anything with extra code present could
+be accessing your secret information, without your knowledge, was
+astounding. It is believed that the Dual\_EC\_DRBG cryptographically
+secure random number generator, is with only minor modifications,
+equivalent to the Young-Yung backdoor from this paper, presented at
+Eurocrypt in 1997. While the paper was very interesting, one thing
+that we disliked about the paper was the way certain variables were
+randomly used in mathematical proofs without them being defined earlier.
+However, we were able to figure out what the variables represented
+from their significance in the proofs, and this did not pose to be
+much of an issue with understanding what the paper is trying to convey.
+
+In conclusion, the paper presented a well-rounded proof of the attack
+(with subsequent theorems included in the paper) and how it works
+on the Diffie-Hellman key exchange protocol. We definitely recommend
+reading this paper. 
+\end{document}

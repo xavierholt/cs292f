@@ -1,0 +1,146 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "palatino" "default"
+\font_sans "helvet" "default"
+\font_typewriter "courier" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 95 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 0
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 0
+\use_package mathdots 1
+\use_package mathtools 0
+\use_package mhchem 1
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Kleptography: Using Cryptography against Cryptography
+\end_layout
+
+\begin_layout Author
+A Summary by Kevin Burk and Ashwini Patil
+\end_layout
+
+\begin_layout Standard
+This paper introduces Kleptography and how to use cryptographic techniques
+ against the Diffie-Hellman protocol.
+ Kleptography, as defined in the paper is the "study of stealing information
+ securely and subliminally." The authors had previously introduced the concept
+ of SETUP (Secretly Embedded Trapdoor with Universal Protection), which
+ was designed such that it gives a unique advantage to the attacker.
+ A SETUP is an algorithm that can be used to leak encrypted secret key informati
+on, when present within a cryptosystem.
+ They discuss this concept again, in the context of Diffie-Hellman key exchanges.
+ The paper can be applied to applications such as chip-and-pin card transactions
+ and generation of RSA keys.
+ We will be talking about how "black box" devices like USB tokens or chip
+ cards can be designed to leak their keys in such a way that only the designer
+ can recover them - or indeed know that keys are being leaked at all.
+\end_layout
+
+\begin_layout Standard
+The authors discuss the Diffie-Hellman key exchange protocol, and further
+ go on to prove how it can be compromised using a strong attack based on
+ the discrete logarithm problem.
+ They also discuss the security of this attack from the attacker's point
+ of view.
+ The attacker can steal secrets in an exclusive and subliminal manner, implying
+ that the attack is not traceable by anyone but the attacker.
+ The concept of a strong SETUP is introduced in this paper and further used
+ to attack the Diffie-Hellman key exchange protocol, in comparison to earlier
+ used weak SETUPs.
+ Here lies the novelty of this paper.
+ Earlier attacks employing weak SETUPs were cryptographically insecure in
+ the sense that the owner of the device was able to detect that his/her
+ secret was compromised.
+ The idea of m out of n (bits) leakage bandwidth is also a new concept in
+ this paper.
+ The authors then go on to discuss the Probabilistic Bias Removal Method.
+ It presents a method to obtain larger uniform random numbers for RSA key
+ generation.
+\end_layout
+
+\begin_layout Standard
+While going through the paper, we were very intrigued by the wide range
+ of applications that the paper's concepts could be applied to.
+ Additionally, the fact that anything with extra code present could be accessing
+ your secret information, without your knowledge, was astounding.
+ It is believed that the Dual_EC_DRBG cryptographically secure random number
+ generator, is with only minor modifications, equivalent to the Young-Yung
+ backdoor from this paper, presented at Eurocrypt in 1997.
+ While the paper was very interesting, one thing that we disliked about
+ the paper was the way certain variables were randomly used in mathematical
+ proofs without them being defined earlier.
+ However, we were able to figure out what the variables represented from
+ their significance in the proofs, and this did not pose to be much of an
+ issue with understanding what the paper is trying to convey.
+\end_layout
+
+\begin_layout Standard
+In conclusion, the paper presented a well-rounded proof of the attack (with
+ subsequent theorems included in the paper) and how it works on the Diffie-Hellm
+an key exchange protocol.
+ We definitely recommend reading this paper.
+ 
+\end_layout
+
+\end_body
+\end_document
